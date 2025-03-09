@@ -19,7 +19,7 @@ export default function CourseCard({ course }: CourseCardProps) {
       </CardContent>
       <CardFooter>
         <Link href={`/courses/${course.id}`} className="w-full">
-          <Button className="w-full" variant="secondary">
+          <Button className="bg-gradient-to-r from-blue-300 to-blue-700 hover:from-blue-600 hover:to-blue-800 w-full" >
             View Course
           </Button>
         </Link>

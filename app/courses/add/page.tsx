@@ -118,7 +118,7 @@ export default function AddCoursePage() {
             <div className="pt-4">
               <Button 
                 type="submit" 
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800"
                 disabled={loading}
               >
                 {loading ? "Adding Course..." : "Add Course"}

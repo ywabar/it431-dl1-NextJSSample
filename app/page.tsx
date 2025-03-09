@@ -16,7 +16,7 @@ async function getCourses(): Promise<Course[]> {
   try {
     // Use relative URL for API routes in the same Next.js app
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-  const res = await fetch(`${baseUrl}/api/courses`, {
+    const res = await fetch(`${baseUrl}/api/courses`, {
       cache: "no-store", // Disable caching for this request
     });
     
@@ -42,7 +42,7 @@ const Home: FC = async () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-center">Available Courses</h1>
           <Link href="/courses/add">
-            <Button className="bg-green-600 hover:bg-green-700">
+            <Button className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800">
               Add New Course
             </Button>
           </Link>
