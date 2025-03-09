@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Introduction to Web Development",
+    "description": "Learn the basics of HTML, CSS, and JavaScript",
+    "estimatedTime": "10 hours"
+  },
+  {
+    "id": 2,
+    "title": "React Fundamentals",
+    "description": "Build modern UIs with React",
+    "estimatedTime": "15 hours"
+  },
+  {
+    "id": 3,
+    "title": "Node.js Backend Development",
+    "description": "Create server-side applications with Node.js",
+    "estimatedTime": "12 hours"
+  },
+  {
+    "id": 4,
+    "title": "asdf",
+    "description": "asdf",
+    "estimatedTime": "5 hours"
+  }
+]

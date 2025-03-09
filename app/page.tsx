@@ -8,24 +8,28 @@ interface Course {
   id: number;
   title: string;
   description: string;
-  instructor?: string;
-  thumbnail?: string;
-  // Add any other course properties that exist in your model
+  estimatedTime: string;
 }
 
 // This is a Server Component that fetches data
 async function getCourses(): Promise<Course[]> {
-  // In server components, we need an absolute URL
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+  try {
+    // Use relative URL for API routes in the same Next.js app
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
   const res = await fetch(`${baseUrl}/api/courses`, {
-    cache: "no-store", // Disable caching for this request
-  });
-  
-  if (!res.ok) {
-    throw new Error("Failed to fetch courses");
+      cache: "no-store", // Disable caching for this request
+    });
+    
+    if (!res.ok) {
+      console.error('API response error:', await res.text());
+      throw new Error(`Failed to fetch courses: ${res.status}`);
+    }
+    
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+    return []; // Return empty array on error to prevent UI from breaking
   }
-  
-  return res.json();
 }
 
 const Home: FC = async () => {
@@ -35,7 +39,14 @@ const Home: FC = async () => {
     <div>
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-center">Available Courses</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-center">Available Courses</h1>
+          <Link href="/courses/add">
+            <Button className="bg-green-600 hover:bg-green-700">
+              Add New Course
+            </Button>
+          </Link>
+        </div>
         
         {courses.length === 0 ? (
           <p className="text-center text-gray-500">No courses available at the moment.</p>
