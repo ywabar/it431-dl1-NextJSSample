@@ -1,8 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Courses Management Application
 
-## Getting Started
+This is a demonstration application built with [Next.js](https://nextjs.org) that showcases CRUD (Create, Read, Update, Delete) operations against a JSON file as a data store. It provides a simple but functional course management system with a modern UI.
 
-First, run the development server:
+## Features
+
+- **Create** new courses with titles, descriptions, and estimated completion times
+- **Read** course information from a local JSON data store
+- **Update** existing course details
+- **Delete** courses
+- Clean, responsive UI built with Next.js App Router and React
+
+## Technology Stack
+
+- [Next.js](https://nextjs.org) with App Router
+- React
+- TypeScript
+- JSON file-based data storage (as a database alternative for demonstration)
+- [shadcn/ui](https://ui.shadcn.com/) for UI components
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- npm, yarn, or pnpm as your package manager
+
+## Installation
+
+1. Clone this repository:
+
+   ```bash
+   git clone <repository-url>
+   cd courses-management-app
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. Set up the environment variables:
+   Create a `.env.local` file in the root directory with the following content:
+   ```
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   ```
+   This variable is used to ensure API routes work correctly in both development and production environments.
+
+## Running the Application
+
+Start the development server:
 
 ```bash
 npm run dev
@@ -10,27 +61,47 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application stores course data in a JSON file located in the project. The API routes in the `app/api` directory handle CRUD operations by reading from and writing to this JSON file.
 
-## Learn More
+- **List Courses**: The home page fetches and displays all courses
+- **View Course**: Click on a course to view its details
+- **Create Course**: Use the "Add Course" button to create a new course
+- **Edit Course**: Click the "Edit" button on a course details page
+- **Delete Course**: Click the "Delete" button on a course details page
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `app/page.tsx`: Home page with course listings
+- `app/courses/[id]/page.tsx`: Course details page
+- `app/courses/[id]/edit/page.tsx`: Edit course page
+- `app/api/courses/route.ts`: API endpoint for getting all courses and creating new ones
+- `app/api/courses/[id]/route.ts`: API endpoint for getting, updating, and deleting specific courses
+- `components/`: Reusable UI components
+- `types/`: TypeScript type definitions
+- `data/courses.json`: JSON file that serves as the data store
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Learning Points
 
-## Deploy on Vercel
+This project demonstrates:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Next.js App Router architecture
+2. Server and client components in Next.js
+3. Handling asynchronous operations
+4. Type safety with TypeScript
+5. Simple file-based data persistence
+6. API route implementation
+7. Form handling in React
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+This project is open-source and available under the MIT License.
+
+---
+
+_Built by Randy Michak as a demonstration project for Next.js CRUD operations._
