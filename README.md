@@ -46,9 +46,13 @@ Before you begin, ensure you have the following installed:
 
 3. Set up the environment variables:
    Create a `.env.local` file in the root directory with the following content:
+
    ```
    NEXT_PUBLIC_APP_URL=http://localhost:3000
    ```
+
+   > **IMPORTANT:** Make sure the URL in `NEXT_PUBLIC_APP_URL` matches exactly with the endpoint displayed when you run the development server (typically http://localhost:3000, but it may be different if that port is in use). This ensures API routes work correctly for your specific setup.
+
    This variable is used to ensure API routes work correctly in both development and production environments.
 
 ## Running the Application
