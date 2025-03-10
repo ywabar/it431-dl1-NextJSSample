@@ -1,20 +1,14 @@
 [
   {
-    "id": 3,
-    "title": "Node.js Backend Development",
-    "description": "Create server-side applications with Node.js",
-    "estimatedTime": "12 hours"
+    "title": "ITP 1270 2",
+    "description": "Advanced Wevb Dev2",
+    "estimatedTime": "4443333 hours",
+    "id": 7
   },
   {
-    "id": 4,
-    "title": "asdf",
-    "description": "asdf",
-    "estimatedTime": "5 hours"
-  },
-  {
-    "id": 5,
-    "title": "sdfasdfsdf",
-    "description": "asfsfsdfsdfsdsdfsdfs",
-    "estimatedTime": "5555 hours"
+    "title": "ITE 152",
+    "description": "Advance IT",
+    "estimatedTime": "4 hours",
+    "id": 8
   }
 ]
