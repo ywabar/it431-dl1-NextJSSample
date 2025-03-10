@@ -29,13 +29,20 @@ const writeCourses = (courses: Course[]) => {
 // GET: Retrieve a course by ID
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> } // Await params
 ) {
   try {
-    const courses = readCourses();
-    // Await params before accessing its properties
-    const id = (await params).id;
+    const { id } = await context.params; // Await params before accessing
     const courseId = parseInt(id, 10);
+
+    if (isNaN(courseId)) {
+      return NextResponse.json(
+        { error: "Invalid course ID." },
+        { status: 400 }
+      );
+    }
+
+    const courses = readCourses();
     const course = courses.find((c) => c.id === courseId);
 
     if (!course) {
@@ -44,6 +51,7 @@ export async function GET(
 
     return NextResponse.json(course, { status: 200 });
   } catch (error) {
+    console.error("Error retrieving course:", error);
     return NextResponse.json(
       { error: "Failed to retrieve course." },
       { status: 500 }
@@ -54,34 +62,33 @@ export async function GET(
 // PUT: Update a course by ID
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> } // Await params
 ) {
   try {
-    const courses = readCourses();
-    // Await params before accessing its properties
-    const id = (await params).id;
+    const { id } = await context.params; // Await params before accessing
     const courseId = parseInt(id, 10);
-    const updatedCourse: Course = await request.json();
+    if (isNaN(courseId)) {
+      return NextResponse.json(
+        { error: "Invalid course ID." },
+        { status: 400 }
+      );
+    }
 
-    // Find the course index
-    const courseIndex = courses.findIndex((c) => c.id === courseId);
+    const updatedCourse: Partial<Course> = await request.json();
+    const courses = readCourses();
+    const index = courses.findIndex((c) => c.id === courseId);
 
-    // If course not found, return 404
-    if (courseIndex === -1) {
+    if (index === -1) {
       return NextResponse.json({ error: "Course not found." }, { status: 404 });
     }
 
-    // Ensure the ID is preserved and consistent
-    updatedCourse.id = courseId;
+    courses[index] = { ...courses[index], ...updatedCourse, id: courseId };
 
-    // Update the course
-    courses[courseIndex] = updatedCourse;
-
-    // Write the updated course list back to the file
     writeCourses(courses);
 
-    return NextResponse.json(updatedCourse, { status: 200 });
+    return NextResponse.json(courses[index], { status: 200 });
   } catch (error) {
+    console.error("Error updating course:", error);
     return NextResponse.json(
       { error: "Failed to update course." },
       { status: 500 }
@@ -92,30 +99,34 @@ export async function PUT(
 // DELETE: Remove a course by ID
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> } // Await params
 ) {
   try {
-    const courses = readCourses();
-    // Await params before accessing its properties
-    const id = (await params).id;
+    const { id } = await context.params; // Await params before accessing
     const courseId = parseInt(id, 10);
+    if (isNaN(courseId)) {
+      return NextResponse.json(
+        { error: "Invalid course ID." },
+        { status: 400 }
+      );
+    }
 
-    // Filter out the course to delete
-    const filteredCourses = courses.filter((c) => c.id !== courseId);
+    let courses = readCourses();
+    const initialLength = courses.length;
+    courses = courses.filter((c) => c.id !== courseId);
 
-    // If no course was removed, return 404
-    if (filteredCourses.length === courses.length) {
+    if (courses.length === initialLength) {
       return NextResponse.json({ error: "Course not found." }, { status: 404 });
     }
 
-    // Write the updated course list back to the file
-    writeCourses(filteredCourses);
+    writeCourses(courses);
 
     return NextResponse.json(
       { message: `Course with ID ${courseId} deleted.` },
       { status: 200 }
     );
   } catch (error) {
+    console.error("Error deleting course:", error);
     return NextResponse.json(
       { error: "Failed to delete course." },
       { status: 500 }
