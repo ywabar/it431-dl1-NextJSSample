@@ -17,14 +17,14 @@ export default function EditCoursePage({ params }: EditCoursePageProps) {
   const router = useRouter();
   // Note: On client components, we don't need to await params since they're already resolved
   const courseId = parseInt(params.id, 10);
-  
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<Course>>({
     title: "",
     description: "",
-    estimatedTime: ""
+    estimatedTime: "",
   });
 
   // Fetch the course data
@@ -33,22 +33,22 @@ export default function EditCoursePage({ params }: EditCoursePageProps) {
       try {
         setLoading(true);
         const response = await fetch(`/api/courses/${courseId}`);
-        
+
         if (!response.ok) {
           throw new Error("Failed to fetch course");
         }
-        
+
         const course: Course = await response.json();
-        
+
         // Extract hours from estimatedTime (e.g., "10 hours" -> "10")
         let hours = course.estimatedTime;
         if (hours && hours.includes(" hours")) {
           hours = hours.replace(" hours", "");
         }
-        
+
         setFormData({
           ...course,
-          estimatedTime: hours
+          estimatedTime: hours,
         });
         setError(null);
       } catch (err) {
@@ -58,15 +58,17 @@ export default function EditCoursePage({ params }: EditCoursePageProps) {
         setLoading(false);
       }
     };
-    
+
     if (courseId) {
       fetchCourse();
     }
   }, [courseId]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,7 +80,9 @@ export default function EditCoursePage({ params }: EditCoursePageProps) {
       const dataToSubmit = {
         ...formData,
         id: courseId,
-        estimatedTime: formData.estimatedTime ? `${formData.estimatedTime} hours` : ""
+        estimatedTime: formData.estimatedTime
+          ? `${formData.estimatedTime} hours`
+          : "",
       };
 
       const response = await fetch(`/api/courses/${courseId}`, {
@@ -135,7 +139,10 @@ export default function EditCoursePage({ params }: EditCoursePageProps) {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6 bg-white p-6 rounded-lg shadow"
+          >
             <div className="space-y-2">
               <label htmlFor="title" className="block font-medium">
                 Course Title <span className="text-red-500">*</span>
@@ -184,8 +191,8 @@ export default function EditCoursePage({ params }: EditCoursePageProps) {
             </div>
 
             <div className="pt-4">
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800"
                 disabled={saving}
               >
@@ -197,4 +204,4 @@ export default function EditCoursePage({ params }: EditCoursePageProps) {
       </main>
     </div>
   );
-} 
+}
